@@ -153,7 +153,7 @@
 
   <div class="floating-buttons">
     <a href="#" class="home-btn">🏠</a>
-    <a href="https://wa.me/your-number">💬</a>
+    <a href="https://wa.me/8615347252138">💬</a>
   </div>
 
   <footer>
