@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Categories | Jiangfan Jewelry</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header, footer {
+      background-color: #f8f8f8;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav a {
+      margin: 0 15px;
+      color: #222;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .section {
+      padding: 50px 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .section h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .category-card {
+      width: 220px;
+      text-align: center;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      padding: 15px;
+      transition: transform 0.2s ease;
+    }
+
+    .category-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .category-card img {
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    .category-card p {
+      margin-top: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    .floating-buttons {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .floating-buttons a {
+      background: #25D366;
+      color: white;
+      padding: 12px;
+      border-radius: 50%;
+      text-align: center;
+      font-size: 20px;
+      text-decoration: none;
+    }
+
+    .floating-buttons a.home-btn {
+      background: #444;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h2>JIANGFAN JEWELRY</h2>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/about.html">About</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/turkey.html">Turkey Wholesale</a>
+      <a href="/#trusted">Trusted Factory</a>
+      <a href="/#process">Production Process</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="section">
+    <h2>Explore Our Categories</h2>
+    <div class="grid">
+      <div class="category-card">
+        <img src="./images/evil-eye.jpg" alt="Evil Eye Charms" />
+        <p>Evil Eye</p>
+      </div>
+      <div class="category-card">
+        <img src="./images/animals.jpg" alt="Animal Pendants" />
+        <p>Animals</p>
+      </div>
+      <div class="category-card">
+        <img src="./images/ocean.jpg" alt="Ocean Elements" />
+        <p>Ocean</p>
+      </div>
+      <div class="category-card">
+        <img src="./images/alphabet.jpg" alt="Alphabet Letters" />
+        <p>Alphabet</p>
+      </div>
+      <div class="category-card">
+        <img src="./images/religious.jpg" alt="Religious Symbols" />
+        <p>Religious</p>
+      </div>
+      <div class="category-card">
+        <img src="./images/cultural.jpg" alt="Cultural Icons" />
+        <p>Cultural</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="floating-buttons">
+    <a href="/" class="home-btn">🏠</a>
+    <a href="https://wa.me/8615347252138">💬</a>
+  </div>
+
+  <footer>
+    &copy; 2025 Jiangfan Jewelry | All rights reserved
+  </footer>
+</body>
+</html>
