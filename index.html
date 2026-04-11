@@ -703,57 +703,83 @@
         </aside>
 
         <div class="form-wrap">
-          <form action="https://formspree.io/f/xrbqldnv" method="POST">
-            <div class="field-row">
-              <label>
-                Name
-                <input type="text" name="name" placeholder="Your name" required />
-              </label>
-              <label>
-                WhatsApp or Email
-                <input type="text" name="contact" placeholder="WhatsApp number or email" required />
-              </label>
-            </div>
+         <form action="https://formspree.io/f/xrbqldnv" method="POST" id="contact-form">
+  <input type="hidden" name="_next" value="https://jiangfanjewelrymaf.netlify.app//thank-you.html">
 
-            <div class="field-row">
-              <label>
-                Country
-                <input type="text" name="country" placeholder="Your country" required />
-              </label>
-              <label>
-                Business Type
-                <select name="business_type" required>
-                  <option value="">Select one</option>
-                  <option>Boutique</option>
-                  <option>Wholesaler</option>
-                  <option>Online Shop</option>
-                  <option>Importer</option>
-                  <option>Brand Owner</option>
-                </select>
-              </label>
-            </div>
+  <div class="form-row">
+    <div class="field">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" placeholder="Your name" required>
+    </div>
 
-            <div class="field-row">
-              <label>
-                Interested Category
-                <select name="interested_category" required>
-                  <option value="">Select one</option>
-                  <option>Brass Jewelry</option>
-                  <option>Custom / OEM</option>
-                </select>
-              </label>
-              <label>
-                Order Type
-                <select name="order_type" required>
-                  <option value="">Select one</option>
-                  <option>Sample First</option>
-                  <option>Small Wholesale</option>
-                  <option>Regular Bulk Orders</option>
-                  <option>Custom Development</option>
-                </select>
-              </label>
-            </div>
+    <div class="field">
+      <label for="company">Company / Store Name</label>
+      <input type="text" id="company" name="company" placeholder="Your company or store name" required minlength="2">
+    </div>
+  </div>
 
+  <div class="form-row">
+    <div class="field">
+      <label for="whatsapp">WhatsApp</label>
+      <input type="text" id="whatsapp" name="whatsapp" placeholder="WhatsApp number with country code" required pattern="^[0-9+()\\-\\s]{6,20}$">
+    </div>
+
+    <div class="field">
+      <label for="email">Email (Optional)</label>
+      <input type="email" id="email" name="email" placeholder="Business email preferred">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="field">
+      <label for="country">Country</label>
+      <input type="text" id="country" name="country" placeholder="Your country" required>
+    </div>
+
+    <div class="field">
+      <label for="business_type">Business Type</label>
+      <select id="business_type" name="business_type" required>
+        <option value="">Select one</option>
+        <option>Boutique</option>
+        <option>Wholesaler</option>
+        <option>Online Shop</option>
+        <option>Importer</option>
+        <option>Brand Owner</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="field">
+      <label for="interested_category">Interested Category</label>
+      <select id="interested_category" name="interested_category" required>
+        <option value="">Select one</option>
+        <option>Brass Jewelry</option>
+        <option>Custom / OEM</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="order_type">Order Type</label>
+      <select id="order_type" name="order_type" required>
+        <option value="">Select one</option>
+        <option>Sample First</option>
+        <option>Small Wholesale</option>
+        <option>Regular Bulk Orders</option>
+        <option>Custom Development</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="message">Message</label>
+    <textarea id="message" name="message" rows="6" placeholder="Tell us your market, style direction, MOQ idea, plating request, or send a short Custom / OEM brief." required minlength="20"></textarea>
+  </div>
+
+  <input type="text" name="_gotcha" style="display:none">
+
+  <button type="submit" class="btn btn-primary">Send Inquiry</button>
+</form>
             <label>
               Message
               <textarea name="message" placeholder="Tell us your style direction, target market, MOQ idea, plating request, or send a short Custom / OEM brief."></textarea>
