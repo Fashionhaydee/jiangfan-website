@@ -702,94 +702,77 @@
           <a class="btn btn-secondary" href="https://wa.me/8615347252138" target="_blank" rel="noopener noreferrer">Prefer WhatsApp Instead?</a>
         </aside>
 
-        <div class="form-wrap">
-         <form action="https://formspree.io/f/xrbqldnv" method="POST" id="contact-form">
-  <input type="hidden" name="_next" value="https://jiangfanjewelrymaf.netlify.app//thank-you.html">
-
-  <div class="form-row">
-    <div class="field">
-      <label for="name">Name</label>
-      <input type="text" id="name" name="name" placeholder="Your name" required>
-    </div>
-
-    <div class="field">
-      <label for="company">Company / Store Name</label>
-      <input type="text" id="company" name="company" placeholder="Your company or store name" required minlength="2">
-    </div>
-  </div>
-
-  <div class="form-row">
-    <div class="field">
-      <label for="whatsapp">WhatsApp</label>
-      <input type="text" id="whatsapp" name="whatsapp" placeholder="WhatsApp number with country code" required pattern="^[0-9+()\\-\\s]{6,20}$">
-    </div>
-
-    <div class="field">
-      <label for="email">Email (Optional)</label>
-      <input type="email" id="email" name="email" placeholder="Business email preferred">
-    </div>
-  </div>
-
-  <div class="form-row">
-    <div class="field">
-      <label for="country">Country</label>
-      <input type="text" id="country" name="country" placeholder="Your country" required>
-    </div>
-
-    <div class="field">
-      <label for="business_type">Business Type</label>
-      <select id="business_type" name="business_type" required>
-        <option value="">Select one</option>
-        <option>Boutique</option>
-        <option>Wholesaler</option>
-        <option>Online Shop</option>
-        <option>Importer</option>
-        <option>Brand Owner</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="form-row">
-    <div class="field">
-      <label for="interested_category">Interested Category</label>
-      <select id="interested_category" name="interested_category" required>
-        <option value="">Select one</option>
-        <option>Brass Jewelry</option>
-        <option>Custom / OEM</option>
-      </select>
-    </div>
-
-    <div class="field">
-      <label for="order_type">Order Type</label>
-      <select id="order_type" name="order_type" required>
-        <option value="">Select one</option>
-        <option>Sample First</option>
-        <option>Small Wholesale</option>
-        <option>Regular Bulk Orders</option>
-        <option>Custom Development</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="field">
-    <label for="message">Message</label>
-    <textarea id="message" name="message" rows="6" placeholder="Tell us your market, style direction, MOQ idea, plating request, or send a short Custom / OEM brief." required minlength="20"></textarea>
-  </div>
-
-  <input type="text" name="_gotcha" style="display:none">
-
-  <button type="submit" class="btn btn-primary">Send Inquiry</button>
-</form>
-            <label>
-              Message
-              <textarea name="message" placeholder="Tell us your style direction, target market, MOQ idea, plating request, or send a short Custom / OEM brief."></textarea>
-            </label>
-
-            <button class="btn btn-primary" type="submit">Send Inquiry</button>
-            <p class="small-note">Replace the Formspree action link above with your own live form ID before publishing.</p>
-          </form>
-        </div>
+   <div class="form-wrap">
+  <form id="contact-form" novalidate>
+    <div class="form-row">
+      <div class="field">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Your name"
+          required
+        >
       </div>
+
+      <div class="field">
+        <label for="company">Company / Store Name (Optional)</label>
+        <input
+          type="text"
+          id="company"
+          name="company"
+          placeholder="Your company or store name"
+        >
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="field field-full">
+        <label for="contact">Email or WhatsApp</label>
+        <input
+          type="text"
+          id="contact"
+          name="contact"
+          placeholder="Email address or WhatsApp number"
+          required
+        >
+        <small class="field-note">Please enter a valid business email or WhatsApp number with country code.</small>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="field">
+        <label for="business_type">Business Type</label>
+        <select id="business_type" name="business_type" required>
+          <option value="">Select one</option>
+          <option>Boutique</option>
+          <option>Wholesaler</option>
+          <option>Online Shop</option>
+          <option>Importer</option>
+          <option>Brand Owner</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="catalog_type">Catalog Type</label>
+        <select id="catalog_type" name="catalog_type" required>
+          <option value="">Select one</option>
+          <option>Brass Jewelry</option>
+          <option>Custom / OEM</option>
+        </select>
+      </div>
+    </div>
+
+    <input type="text" name="_gotcha" style="display:none">
+
+    <div id="form-status" class="form-status" aria-live="polite"></div>
+
+    <button type="submit" id="submitBtn" class="btn btn-primary">
+      Send Inquiry
+    </button>
+  </form>
+</div>
     </section>
   </main>
 
@@ -798,5 +781,106 @@
   </footer>
 
   <a class="floating-whatsapp" href="https://wa.me/8615347252138" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">WA</a>
+<script>
+  const form = document.getElementById("contact-form");
+  const submitBtn = document.getElementById("submitBtn");
+  const statusBox = document.getElementById("form-status");
+
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/xrbqldnv";
+  const THANK_YOU_URL = "/thank-you.html";
+
+  function isValidEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
+  }
+
+  function isValidWhatsApp(value) {
+    return /^\+?[0-9()\-\s]{6,20}$/.test(value);
+  }
+
+  function validateContact(value) {
+    const input = value.trim();
+
+    if (!input) return false;
+
+    if (input.includes("@")) {
+      return isValidEmail(input);
+    }
+
+    return isValidWhatsApp(input);
+  }
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    statusBox.textContent = "";
+    statusBox.className = "form-status";
+
+    const contactValue = document.getElementById("contact").value.trim();
+
+    if (!validateContact(contactValue)) {
+      statusBox.textContent = "Please enter a valid email address or WhatsApp number.";
+      statusBox.classList.add("error");
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending...";
+
+    try {
+      const formData = new FormData(form);
+
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        body: formData,
+        headers: {
+          "Accept": "application/json"
+        }
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        window.location.href = THANK_YOU_URL;
+        return;
+      }
+
+      if (result && result.errors && result.errors.length > 0) {
+        statusBox.textContent = result.errors.map(err => err.message).join(" ");
+      } else {
+        statusBox.textContent = "Submission failed. Please try again.";
+      }
+
+      statusBox.classList.add("error");
+    } catch (error) {
+      statusBox.textContent = "Network error. Please try again.";
+      statusBox.classList.add("error");
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Send Inquiry";
+    }
+  });
+</script>
+  .field-note {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  color: rgba(245, 241, 232, 0.58);
+}
+
+.form-status {
+  margin: 12px 0 0;
+  font-size: 14px;
+  min-height: 20px;
+  color: rgba(245, 241, 232, 0.72);
+}
+
+.form-status.error {
+  color: #ff8f8f;
+}
+
+#submitBtn:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
 </body>
 </html>
