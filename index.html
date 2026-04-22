@@ -616,101 +616,106 @@
 
   <a class="floating-whatsapp wa-link" href="https://wa.me/8615347252138?text=Hello%2C%20I%20want%20a%20focused%20catalog%20for%20my%20market." target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">WA</a>
 
-  <script>
-    window.GA_MEASUREMENT_ID = 'G-D4YKH2LB2Y';
-if (window.GA_MEASUREMENT_ID) {
-      const gaScript = document.createElement('script');
-      gaScript.async = true;
-      gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.GA_MEASUREMENT_ID;
-      document.head.appendChild(gaScript);
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      window.gtag = gtag;
-      gtag('js', new Date());
-      gtag('config', window.GA_MEASUREMENT_ID);
-    }
+ <script>
+  window.GA_MEASUREMENT_ID = 'G-D4YKH2LB2Y';
 
-    function fireEvent(eventName, params) {
-      if (typeof window.gtag === 'function') {
-        window.gtag('event', eventName, params || {});
-      }
-    }
+  if (window.GA_MEASUREMENT_ID) {
+    const gaScript = document.createElement('script');
+    gaScript.async = true;
+    gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.GA_MEASUREMENT_ID;
+    document.head.appendChild(gaScript);
 
-    document.querySelectorAll('.wa-link').forEach(function(link) {
-      link.addEventListener('click', function() {
-        fireEvent('whatsapp_click', { location: link.getAttribute('href') || '' });
-      });
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    window.gtag = gtag;
+
+    gtag('js', new Date());
+    gtag('config', window.GA_MEASUREMENT_ID);
+  }
+
+  function fireEvent(eventName, params) {
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', eventName, params || {});
+    }
+  }
+
+  document.querySelectorAll('.wa-link').forEach(function(link) {
+    link.addEventListener('click', function() {
+      fireEvent('whatsapp_click', { location: link.getAttribute('href') || '' });
     });
+  });
 
-    document.querySelectorAll('.catalog-link').forEach(function(link) {
-      link.addEventListener('click', function() {
-        fireEvent('catalog_cta_click', { section: 'hero' });
-      });
+  document.querySelectorAll('.catalog-link').forEach(function(link) {
+    link.addEventListener('click', function() {
+      fireEvent('catalog_cta_click', { section: 'hero' });
     });
+  });
 
-    const form = document.getElementById('contact-form');
-    const submitBtn = document.getElementById('submitBtn');
-    const statusBox = document.getElementById('form-status');
-    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xrbqldnv';
-    const THANK_YOU_URL = './thank-you.html';
+  const form = document.getElementById('contact-form');
+  const submitBtn = document.getElementById('submitBtn');
+  const statusBox = document.getElementById('form-status');
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xrbqldnv';
+  const THANK_YOU_URL = './thank-you.html';
 
-    function isValidEmail(value) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
+  function isValidEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
+  }
+
+  function isValidWhatsApp(value) {
+    return /^\+?[0-9()\-\s]{6,20}$/.test(value);
+  }
+
+  function validateContact(value) {
+    const input = value.trim();
+    if (!input) return false;
+    if (input.includes('@')) return isValidEmail(input);
+    return isValidWhatsApp(input);
+  }
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    statusBox.textContent = '';
+    statusBox.className = 'form-status';
+
+    const contactValue = document.getElementById('contact').value.trim();
+    if (!validateContact(contactValue)) {
+      statusBox.textContent = 'Please enter a valid email address or WhatsApp number.';
+      statusBox.classList.add('error');
+      return;
     }
 
-    function isValidWhatsApp(value) {
-      return /^\+?[0-9()\-\s]{6,20}$/.test(value);
-    }
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
 
-    function validateContact(value) {
-      const input = value.trim();
-      if (!input) return false;
-      if (input.includes('@')) return isValidEmail(input);
-      return isValidWhatsApp(input);
-    }
+    try {
+      const formData = new FormData(form);
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+      const result = await response.json();
 
-    form.addEventListener('submit', async function (e) {
-      e.preventDefault();
-      statusBox.textContent = '';
-      statusBox.className = 'form-status';
-
-      const contactValue = document.getElementById('contact').value.trim();
-      if (!validateContact(contactValue)) {
-        statusBox.textContent = 'Please enter a valid email address or WhatsApp number.';
-        statusBox.classList.add('error');
+      if (response.ok) {
+        fireEvent('form_submit_success', { form_name: 'catalog_inquiry' });
+        window.location.href = THANK_YOU_URL;
         return;
       }
 
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Sending...';
-
-      try {
-        const formData = new FormData(form);
-        const response = await fetch(FORMSPREE_ENDPOINT, {
-          method: 'POST',
-          body: formData,
-          headers: { 'Accept': 'application/json' }
-        });
-        const result = await response.json();
-        if (response.ok) {
-          fireEvent('form_submit_success', { form_name: 'catalog_inquiry' });
-          window.location.href = THANK_YOU_URL;
-          return;
-        }
-        if (result && result.errors && result.errors.length > 0) {
-          statusBox.textContent = result.errors.map(function(err) { return err.message; }).join(' ');
-        } else {
-          statusBox.textContent = 'Submission failed. Please try again.';
-        }
-        statusBox.classList.add('error');
-      } catch (error) {
-        statusBox.textContent = 'Network error. Please try again.';
-        statusBox.classList.add('error');
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Send Inquiry';
+      if (result && result.errors && result.errors.length > 0) {
+        statusBox.textContent = result.errors.map(function(err) { return err.message; }).join(' ');
+      } else {
+        statusBox.textContent = 'Submission failed. Please try again.';
       }
-    });
-  </script>
+      statusBox.classList.add('error');
+    } catch (error) {
+      statusBox.textContent = 'Network error. Please try again.';
+      statusBox.classList.add('error');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Inquiry';
+    }
+  });
+</script>
 </body>
 </html>
